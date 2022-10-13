@@ -5,18 +5,9 @@ const {promisify} = require("util");
 const config = require('./config')
 const redisClient = redis.createClient(
     {
-        host: config.redis_host,
-        port: config.redis_port
+        url: config.redis_url
     }
 );
-
-const password = config.redis_password || null;
-if(password && password != "null"){
-    redisClient.auth(password, (err,res) => {
-        console.log("res",res);
-        console.log("err",err);
-    });
-}
 
 try{
     redisClient.getAsync = promisify(redisClient.get).bind(redisClient);
